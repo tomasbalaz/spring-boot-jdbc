@@ -54,5 +54,14 @@ public class MovieDataAccessService implements MovieDao {
         return movies.stream()
                 .findFirst();
     }
-    
+
+    @Override
+    public int updateMovie(int id, Movie movie) {
+        var sql = """
+                  UPDATE movie
+                  SET name = ?, release_date = ?
+                  WHERE id = ?
+                  """;
+        return jdbcTemplate.update(sql, movie.name(), movie.releaseDate(), id);
+    }
 }
