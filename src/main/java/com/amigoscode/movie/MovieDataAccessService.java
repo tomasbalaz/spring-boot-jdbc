@@ -3,6 +3,7 @@ package com.amigoscode.movie;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,20 @@ public class MovieDataAccessService implements MovieDao {
 
     @Override
     public List<Movie> selectMovies() {
-        throw new UnsupportedOperationException("not implemented");
+        var sql = """
+                SELECT id, name, release_date
+                FROM movie
+                LIMIT 100;
+                """;
+        List<Movie> movies = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            return new Movie(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    null,
+                    LocalDate.parse(rs.getString("release_date"))
+            );
+        });
+        return movies;
     }
 
     @Override
