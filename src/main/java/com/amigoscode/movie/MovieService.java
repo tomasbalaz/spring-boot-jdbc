@@ -20,7 +20,14 @@ public class MovieService {
     }
 
     public void addNewMovie(Movie movie) {
-        // TODO: check if movie exists
+        String movieName = movie.name();
+        boolean movieExists = movieDao.selectMovieByName(movieName)
+                .isPresent();
+
+        if(movieExists) {
+            throw new NotFoundException(String.format("Movie with movieName %s not found", movieName));
+        }
+
         int result = movieDao.insertMovie(movie);
         if (result != 1) {
             throw new IllegalStateException("oops something went wrong");

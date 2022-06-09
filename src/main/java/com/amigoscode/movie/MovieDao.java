@@ -8,5 +8,6 @@ public interface MovieDao {
     int insertMovie(Movie movie);
     int deleteMovie(int id);
     Optional<Movie> selectMovieById(int id);
+    Optional<Movie> selectMovieByName(String name);
     int updateMovie(int id, Movie movie);
 }

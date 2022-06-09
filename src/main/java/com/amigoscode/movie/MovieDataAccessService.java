@@ -3,7 +3,6 @@ package com.amigoscode.movie;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +51,19 @@ public class MovieDataAccessService implements MovieDao {
                 """;
         List<Movie> movies = jdbcTemplate.query(sql, new MovieRowMapper(), id);
         return movies.stream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Movie> selectMovieByName(String name) {
+        var sql = """
+                SELECT id, name, release_date
+                FROM movie
+                WHERE name = ?
+                """;
+        List<Movie> movies = jdbcTemplate.query(sql, new MovieRowMapper(), name);
+        return  movies.stream()
+                .filter(movie -> name.equalsIgnoreCase(movie.name()))
                 .findFirst();
     }
 
