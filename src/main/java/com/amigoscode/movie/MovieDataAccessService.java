@@ -9,6 +9,12 @@ import java.util.Optional;
 @Repository
 public class MovieDataAccessService implements MovieDao {
 
+    private final JdbcTemplate jdbcTemplate;
+
+    public MovieDataAccessService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public List<Movie> selectMovies() {
         throw new UnsupportedOperationException("not implemented");
